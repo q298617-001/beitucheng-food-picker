@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6efe2" />
+    <meta name="description" content="以北京北土城西路11号为中心，从3km内餐馆随机选择今天吃什么。" />
+    <meta property="og:title" content="北土城 3km 美食随机选择器" />
+    <meta property="og:description" content="日常餐、大餐、全部混合，并支持500m至3km距离筛选。" />
+    <title>北土城 3km 美食随机选择器</title>
+    <link rel="icon" href="./favicon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <main class="shell">
+      <nav class="top-nav" aria-label="页面导航">
+        <span class="data-state">● 所有人可访问</span>
+        <button class="nav-button active" type="button" data-view="picker">随机选择器</button>
+        <button class="nav-button" type="button" data-view="library">查看全部餐馆</button>
+      </nav>
+
+      <section id="picker-view" class="view" aria-labelledby="page-title">
+        <header class="hero">
+          <p class="eyebrow">北土城 · 3 KM 食圈</p>
+          <h1 id="page-title">今天吃什么？</h1>
+          <p>从北土城西路11号周边已核验餐馆中随机抽选。</p>
+          <div class="address-line">⌖ 北京市朝阳区北土城西路11号城建开发大厦</div>
+        </header>
+
+        <div class="mode-panel" role="group" aria-label="选择用餐模式">
+          <button class="mode-button" type="button" data-mode="daily"><strong>日常餐</strong><span>人均 40 元内</span></button>
+          <button class="mode-button" type="button" data-mode="feast"><strong>吃大餐</strong><span>人均 100 元起</span></button>
+          <button class="mode-button active" type="button" data-mode="all"><strong>全部混合</strong><span>所有有效餐馆</span></button>
+        </div>
+
+        <label class="distance-control">
+          <span>最大步行距离 <small>直线距离参考</small></span>
+          <select id="picker-distance" aria-label="最大步行距离">
+            <option value="500">≤ 500m</option>
+            <option value="1000">≤ 1km</option>
+            <option value="2000">≤ 2km</option>
+            <option value="3000" selected>≤ 3km</option>
+          </select>
+        </label>
+
+        <section class="result-card" aria-live="polite">
+          <div class="result-topline"><span>今日饭签</span><span id="candidate-count">正在读取…</span></div>
+          <div id="result-content" class="empty-state">
+            <span class="food-mark" aria-hidden="true">🍲</span>
+            <div><strong>正在读取餐馆数据</strong><p>首次打开可能需要几秒钟</p></div>
+          </div>
+        </section>
+
+        <button id="draw-button" class="draw-button" type="button" disabled><span>今天就吃这个</span><span aria-hidden="true">→</span></button>
+      </section>
+
+      <section id="library-view" class="view hidden" aria-labelledby="library-title">
+        <header class="library-header">
+          <p class="eyebrow">完整数据快照</p>
+          <h1 id="library-title">全部餐馆</h1>
+          <p>所有人可以查看和筛选；网站内容仅由仓库所有者更新。</p>
+          <div class="library-stats"><span><strong id="active-count">—</strong> 有效餐馆</span><span><strong id="daily-count">—</strong> 40元内</span><span><strong id="updated-at">—</strong> 数据时间</span></div>
+        </header>
+
+        <div class="library-toolbar">
+          <input id="search-input" type="search" placeholder="搜索名称、地址或菜系" aria-label="搜索餐馆" />
+          <select id="library-mode" aria-label="餐馆类型">
+            <option value="all">全部餐馆</option>
+            <option value="daily">40元内</option>
+            <option value="feast">大餐</option>
+            <option value="unknown">价格待核查</option>
+          </select>
+          <select id="library-distance" aria-label="餐馆最大距离">
+            <option value="500">≤ 500m</option>
+            <option value="1000">≤ 1km</option>
+            <option value="2000">≤ 2km</option>
+            <option value="3000" selected>≤ 3km</option>
+          </select>
+        </div>
+
+        <div class="list-heading"><strong id="library-count">0 家</strong><span>按距离从近到远</span></div>
+        <section id="restaurant-list" class="restaurant-list" aria-live="polite"></section>
+        <button id="show-more" class="show-more hidden" type="button">显示更多</button>
+      </section>
+
+      <footer><span>硬性范围：球面距离 ≤ 3000m</span><span>GitHub Pages 静态版本</span></footer>
+    </main>
+  </body>
+</html>
